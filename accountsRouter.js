@@ -4,9 +4,19 @@ const db = require('./data/dbConfig')
 
 router.use('/:id', checkID)
 
+async function getQuery(sortby = 'id', sortdir = 'asc', limit = false) {
+  if (limit) {
+    return await db('Accounts').orderBy(sortby, sortdir).limit(limit)
+  }
+  else {
+    return await await db('Accounts').orderBy(sortby, sortdir)
+  }
+}
+
 router.get('/', async (req, res) => {
   try {
-    const accounts = await db('Accounts')
+    console.log(req.query)
+    const accounts = await getQuery({ ...req.query })
     res.status(200).json(accounts)
   }
   catch (err) {
