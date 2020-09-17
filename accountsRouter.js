@@ -15,8 +15,9 @@ async function getQuery(sortby = 'id', sortdir = 'asc', limit = false) {
 
 router.get('/', async (req, res) => {
   try {
+    const { query } = req
     console.log(req.query)
-    const accounts = await getQuery({ ...req.query })
+    const accounts = await getQuery(query.sortby, query.sortdir, query.limit)
     res.status(200).json(accounts)
   }
   catch (err) {
